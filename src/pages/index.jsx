@@ -1,5 +1,7 @@
 import { Button, Col, Container, Input, Row, Spacer } from '@nextui-org/react';
-import React, { useState } from 'react'
+import { useState } from 'react'
+
+import '../style/divider.css';
 
 const AgregarProducto = () => {
   const [id, setId] = useState('');
@@ -35,11 +37,13 @@ const AgregarProducto = () => {
         </Col>
       </Row>
       <Spacer y={1} />
-      <Row>
+      <Row justify='center' >
         <Button onClick={handleSubmit}>
           Agregar
         </Button>
       </Row>
+      <div className='divider' />
+
     </Container>
   )
 }
