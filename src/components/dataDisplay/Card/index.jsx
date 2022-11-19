@@ -6,18 +6,18 @@ const CardImage = ({id, title, src}) => (
     <Card.Header css={{ position: "absolute", zIndex: 1, top: 5 }}>
       <Col>
         <Text size={12} weight="bold" transform="uppercase" color="#ffffffAA">
-          What to watch
+          {id}
         </Text>
         <Text h4 color="white">
-          Stream the Acme event
+          {title}
         </Text>
       </Col>
     </Card.Header>
     <Card.Image
-      src="https://nextui.org/images/card-example-4.jpeg"
+      src={src}
       objectFit="cover"
       width="100%"
-      height={340}
+      height={150}
       alt="Card image background"
     />
   </Card>

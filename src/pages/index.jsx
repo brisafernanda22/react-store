@@ -1,4 +1,4 @@
-import { Button, Col, Container, Input, Row, Spacer } from '@nextui-org/react';
+import { Button, Col, Container, Grid, Input, Row, Spacer } from '@nextui-org/react';
 import { useState } from 'react'
 import CardImage from '../components/dataDisplay/Card';
 
@@ -44,7 +44,24 @@ const AgregarProducto = () => {
         </Button>
       </Row>
       <div className='divider' />
-      <CardImage />
+      <Grid.Container gap={2} justify="center">
+      <Grid xs={12} sm={3}>
+        <CardImage id='1' title='example title' />
+      </Grid>
+      <Grid xs={12} sm={3}>
+        <CardImage id='1' title='example title' />
+      </Grid>
+      <Grid xs={12} sm={3}>
+        <CardImage id='1' title='example title' />
+      </Grid>
+      <Grid xs={12} sm={3}>
+        <CardImage id='1' title='example title' />
+      </Grid>
+      <Grid xs={12} sm={3}>
+        <CardImage id='1' title='example title' />
+      </Grid>
+    </Grid.Container>
+      
     </Container>
   )
 }
