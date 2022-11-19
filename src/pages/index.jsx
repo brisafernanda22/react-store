@@ -1,5 +1,6 @@
 import { Button, Col, Container, Input, Row, Spacer } from '@nextui-org/react';
 import { useState } from 'react'
+import CardImage from '../components/dataDisplay/Card';
 
 import '../style/divider.css';
 
@@ -43,7 +44,7 @@ const AgregarProducto = () => {
         </Button>
       </Row>
       <div className='divider' />
-
+      <CardImage />
     </Container>
   )
 }
