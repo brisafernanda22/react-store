@@ -1,8 +1,46 @@
-import React from 'react'
+import { Button, Col, Container, Input, Row, Spacer } from '@nextui-org/react';
+import React, { useState } from 'react'
 
 const AgregarProducto = () => {
+  const [id, setId] = useState('');
+  const [nombre, setNombre] = useState('');
+  const [precio, setPrecio] = useState('');
+  const [categoria, setCategoria] = useState('');
+
+  const handleSubmit = () =>{
+    console.log('Datos que se estan agregando ', id);
+  };
+
   return (
-    <div>AgregarProducto</div>
+    <Container>
+      <Spacer y={2} />
+      <Row justify='center' gap={2} >
+        <Col>
+          <Input labelPlaceholder="id" onChange={(e)=>setId(e.target.value)} />
+        </Col>
+        <Col>
+          <Input labelPlaceholder="Nombre" onChange={(e)=>setNombre(e.target.value)}/>
+        </Col>
+      </Row>
+      <Spacer y={1} />
+      <Row>
+        <Col>
+          <Input labelPlaceholder="precio" onChange={(e)=>setPrecio(e.target.value)}/>
+        </Col>
+        <Col>
+          <Input labelPlaceholder="categoria" onChange={(e)=>setCategoria(e.target.value)}/>
+        </Col>
+        <Col>
+          <Input labelPlaceholder="img" />
+        </Col>
+      </Row>
+      <Spacer y={1} />
+      <Row>
+        <Button onClick={handleSubmit}>
+          Agregar
+        </Button>
+      </Row>
+    </Container>
   )
 }
 
