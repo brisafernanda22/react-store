@@ -62,8 +62,8 @@ const AgregarProducto = () => {
       <div className='divider' />
       <Grid.Container gap={2} justify="center">
         {allData.map(d => (
-          <Grid xs={12} sm={3}>
-            <CardImage id={d.id} title={d.name} src={d.file} />
+          <Grid xs={12} sm={2}>
+            <CardImage id={d.id} title={d.nombre} src={d.file} />
           </Grid>
         ))}
 
