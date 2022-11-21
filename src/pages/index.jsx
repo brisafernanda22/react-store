@@ -1,6 +1,7 @@
-import { Button, Col, Container, Grid, Input, Row, Spacer } from '@nextui-org/react';
+import { Button, Col, Container, Grid, Input, Row, Spacer, Text } from '@nextui-org/react';
 import { useState } from 'react'
 import CardImage from '../components/dataDisplay/Card';
+import TitleWithLine from '../components/dataDisplay/Text/TitleWithLine';
 
 import '../style/divider.css';
 
@@ -43,12 +44,16 @@ const AgregarProducto = () => {
           <Input labelPlaceholder="precio" onChange={(e) => setPrecio(e.target.value)} />
         </Col>
         <Col>
-          <Input labelPlaceholder="categoria" onChange={(e) => setCategoria(e.target.value)} />
+          <label >Categoria</label>
+          <select onChange={(e)=>setCategoria(e.target.value)}>
+            <option value="">Seleccione una opción</option>
+            <option value="dama">Dama</option>
+            <option value="caballero">Caballero</option>
+            <option value="niños">Niño</option>
+          </select>
         </Col>
         <Col>
           <Row>
-            {/* <Button light auto onClick={handleFile}>examinar</Button>
-            <Input labelPlaceholder="img" value={file} /> */}
             <input type='file' onChange={handleFile} accept="image/*" />
           </Row>
         </Col>
@@ -59,14 +64,29 @@ const AgregarProducto = () => {
           Agregar
         </Button>
       </Row>
-      <div className='divider' />
+      <TitleWithLine title="Damas" />
       <Grid.Container gap={2} justify="center">
-        {allData.map(d => (
-          <Grid xs={12} sm={2}>
+        {allData.filter(d => d.categoria === 'dama').map(d => (
+          <Grid xs={12} sm={2} key={d.id}>
             <CardImage id={d.id} title={d.nombre} src={d.file} />
           </Grid>
         ))}
-
+      </Grid.Container>
+      <TitleWithLine title="Caballeros" gradient="45deg, $purple600 -20%, $pink600 100%" />
+      <Grid.Container gap={2} justify="center">
+        {allData.filter(d => d.categoria === 'caballero').map(d => (
+          <Grid xs={12} sm={2} key={d.id}>
+            <CardImage id={d.id} title={d.nombre} src={d.file} />
+          </Grid>
+        ))}
+      </Grid.Container>
+      <TitleWithLine title="niños" gradient="45deg, $yellow600 -20%, $red600 100%" />
+      <Grid.Container gap={2} justify="center">
+        {allData.filter(d => d.categoria === 'niños').map(d => (
+          <Grid xs={12} sm={2} key={d.id}>
+            <CardImage id={d.id} title={d.nombre} src={d.file} />
+          </Grid>
+        ))}
       </Grid.Container>
 
     </Container>
