@@ -75,7 +75,7 @@ const AgregarProducto = () => {
             <option value="">Seleccione una opción</option>
             <option value="dama">Dama</option>
             <option value="caballero">Caballero</option>
-            <option value="niños">Niño</option>
+            <option value="niño">Niño</option>
           </select>
         </Col>
         <Col>
@@ -94,7 +94,7 @@ const AgregarProducto = () => {
       <Grid.Container gap={2} justify="center">
         {damas.map(d => (
           <Grid xs={12} sm={2} key={`${d.id}`}>
-            <CardImage id={`${d.id}`} title={d.nombre} src={d.file} />
+            <CardImage id={`${d.id}`} title={d.nombre} src={d.image} />
           </Grid>
         ))}
       </Grid.Container>
@@ -110,7 +110,7 @@ const AgregarProducto = () => {
       <Grid.Container gap={2} justify="center">
         {niños.map(d => (
           <Grid xs={12} sm={2} key={`${d.id}`}>
-            <CardImage id={`${d.id}`} title={d.nombre} src={d.file} />
+            <CardImage id={`${d.id}`} title={d.nombre} src={d.image} />
           </Grid>
         ))}
       </Grid.Container>
