@@ -16,18 +16,23 @@ const AgregarProducto = () => {
   const [allData, setAllData] = useState([]);
 
   const [caballeros, setCaballeros] = useState([]);
+  const [damas, setDamas] = useState([]);
+  const [niños, setNiños] = useState([]);
 
   useEffect(() => {
-    
+
     loadProducts();
 
   }, [])
-  
+
 
   const loadProducts = async () => {
-    const data = await allProductsForCategory('caballero');
-    console.log('Caballeros = ', data);
-    setCaballeros(data);
+    const caballero = await allProductsForCategory('caballero');
+    const dama = await allProductsForCategory('dama');
+    const niño = await allProductsForCategory('niño');
+    setCaballeros(caballero);
+    setDamas(dama);
+    setNiños(niño);
 
   }
 
@@ -63,7 +68,7 @@ const AgregarProducto = () => {
         </Col>
         <Col>
           <label >Categoria</label>
-          <select onChange={(e)=>setCategoria(e.target.value)}>
+          <select onChange={(e) => setCategoria(e.target.value)}>
             <option value="">Seleccione una opción</option>
             <option value="dama">Dama</option>
             <option value="caballero">Caballero</option>
@@ -84,8 +89,8 @@ const AgregarProducto = () => {
       </Row>
       <TitleWithLine title="Damas" />
       <Grid.Container gap={2} justify="center">
-        {allData.filter(d => d.categoria === 'dama').map(d => (
-          <Grid xs={12} sm={2} key={d.id}>
+        {damas.map(d => (
+          <Grid xs={12} sm={2} key={`${d.id}`}>
             <CardImage id={d.id} title={d.nombre} src={d.file} />
           </Grid>
         ))}
@@ -100,8 +105,8 @@ const AgregarProducto = () => {
       </Grid.Container>
       <TitleWithLine title="niños" gradient="45deg, $yellow600 -20%, $red600 100%" />
       <Grid.Container gap={2} justify="center">
-        {allData.filter(d => d.categoria === 'niños').map(d => (
-          <Grid xs={12} sm={2} key={d.id}>
+        {niños.map(d => (
+          <Grid xs={12} sm={2} key={`${d.id}`}>
             <CardImage id={d.id} title={d.nombre} src={d.file} />
           </Grid>
         ))}
