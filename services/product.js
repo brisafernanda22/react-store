@@ -6,3 +6,8 @@ export const allProductsForCategory = async(category) =>{
   return productos;
 };
 
+export const addProduct = async (producto) =>{
+  const request = await fetchPersonal('/producto', producto, 'POST');
+  const {message} = await request.json();
+  return message;
+};

@@ -1,6 +1,6 @@
 import { Button, Col, Container, Grid, Input, Row, Spacer, Text } from '@nextui-org/react';
 import { useEffect, useState } from 'react'
-import { allProductsForCategory } from '../../services/product';
+import { addProduct, allProductsForCategory } from '../../services/product';
 import CardImage from '../components/dataDisplay/Card';
 import TitleWithLine from '../components/dataDisplay/Text/TitleWithLine';
 
@@ -20,9 +20,7 @@ const AgregarProducto = () => {
   const [niños, setNiños] = useState([]);
 
   useEffect(() => {
-
     loadProducts();
-
   }, [])
 
 
@@ -36,7 +34,12 @@ const AgregarProducto = () => {
 
   }
 
-  const handleSubmit = () => setAllData([...allData, { id, nombre, precio, categoria, file }]);
+  const handleSubmit = async () =>{
+    console.log('prueba')
+    const message = await  addProduct({nombre,precio, categoria, image: 'nada'});
+    console.log('Mensaje', message);
+    loadProducts();
+  };
 
   const handleFile = async ({ target }) => {
 
@@ -91,7 +94,7 @@ const AgregarProducto = () => {
       <Grid.Container gap={2} justify="center">
         {damas.map(d => (
           <Grid xs={12} sm={2} key={`${d.id}`}>
-            <CardImage id={d.id} title={d.nombre} src={d.file} />
+            <CardImage id={`${d.id}`} title={d.nombre} src={d.file} />
           </Grid>
         ))}
       </Grid.Container>
@@ -99,7 +102,7 @@ const AgregarProducto = () => {
       <Grid.Container gap={2} justify="center">
         {caballeros.map(d => (
           <Grid xs={12} sm={2} key={`${d.id}`}>
-            <CardImage id={d.id} title={d.nombre} src={d.file} />
+            <CardImage id={`${d.id}`} title={d.nombre} src={d.image} />
           </Grid>
         ))}
       </Grid.Container>
@@ -107,7 +110,7 @@ const AgregarProducto = () => {
       <Grid.Container gap={2} justify="center">
         {niños.map(d => (
           <Grid xs={12} sm={2} key={`${d.id}`}>
-            <CardImage id={d.id} title={d.nombre} src={d.file} />
+            <CardImage id={`${d.id}`} title={d.nombre} src={d.file} />
           </Grid>
         ))}
       </Grid.Container>
