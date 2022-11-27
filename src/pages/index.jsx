@@ -1,7 +1,9 @@
 import { Button, Col, Container, Grid, Input, Row, Spacer, Text } from '@nextui-org/react';
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { allProductsForCategory } from '../../services/product';
 import CardImage from '../components/dataDisplay/Card';
 import TitleWithLine from '../components/dataDisplay/Text/TitleWithLine';
+
 
 import '../style/divider.css';
 
@@ -12,6 +14,22 @@ const AgregarProducto = () => {
   const [categoria, setCategoria] = useState('');
   const [file, setFile] = useState('Ningun archivo seleccionado');
   const [allData, setAllData] = useState([]);
+
+  const [caballeros, setCaballeros] = useState([]);
+
+  useEffect(() => {
+    
+    loadProducts();
+
+  }, [])
+  
+
+  const loadProducts = async () => {
+    const data = await allProductsForCategory('caballero');
+    console.log('Caballeros = ', data);
+    setCaballeros(data);
+
+  }
 
   const handleSubmit = () => setAllData([...allData, { id, nombre, precio, categoria, file }]);
 
@@ -74,8 +92,8 @@ const AgregarProducto = () => {
       </Grid.Container>
       <TitleWithLine title="Caballeros" gradient="45deg, $purple600 -20%, $pink600 100%" />
       <Grid.Container gap={2} justify="center">
-        {allData.filter(d => d.categoria === 'caballero').map(d => (
-          <Grid xs={12} sm={2} key={d.id}>
+        {caballeros.map(d => (
+          <Grid xs={12} sm={2} key={`${d.id}`}>
             <CardImage id={d.id} title={d.nombre} src={d.file} />
           </Grid>
         ))}
