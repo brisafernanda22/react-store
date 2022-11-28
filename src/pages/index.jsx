@@ -1,7 +1,10 @@
-import { Button, Col, Container, Grid, Input, Row, Spacer, Text } from '@nextui-org/react';
-import { useState } from 'react'
+import { Button, Col, Container, Grid, Input, Row, Spacer, Table, Text } from '@nextui-org/react';
+import { useEffect, useState } from 'react'
+import { addProduct, allProductsForCategory } from '../../services/product';
+import { registerBuy } from '../../services/recibo';
 import CardImage from '../components/dataDisplay/Card';
 import TitleWithLine from '../components/dataDisplay/Text/TitleWithLine';
+
 
 import '../style/divider.css';
 
@@ -11,9 +14,32 @@ const AgregarProducto = () => {
   const [precio, setPrecio] = useState('');
   const [categoria, setCategoria] = useState('');
   const [file, setFile] = useState('Ningun archivo seleccionado');
-  const [allData, setAllData] = useState([]);
+  const [buys, setBuys] = useState([]);
 
-  const handleSubmit = () => setAllData([...allData, { id, nombre, precio, categoria, file }]);
+  const [caballeros, setCaballeros] = useState([]);
+  const [damas, setDamas] = useState([]);
+  const [niños, setNiños] = useState([]);
+
+  useEffect(() => {
+    loadProducts();
+  }, [])
+
+
+  const loadProducts = async () => {
+    const caballero = await allProductsForCategory('caballero');
+    const dama = await allProductsForCategory('dama');
+    const niño = await allProductsForCategory('niño');
+    setCaballeros(caballero);
+    setDamas(dama);
+    setNiños(niño);
+
+  }
+
+  const handleSubmit = async () => {
+    const message = await addProduct({ nombre, precio, categoria, image: 'nada' });
+    console.log('Mensaje', message);
+    loadProducts();
+  };
 
   const handleFile = async ({ target }) => {
 
@@ -25,6 +51,13 @@ const AgregarProducto = () => {
     };
 
     reader.readAsDataURL(target.files[0]);
+  };
+
+  const handleSubmitBuy = async () => {
+    const message = await registerBuy({ total: buys.reduce((acumulator, current) => acumulator + Number.parseFloat(current.precio),0) });
+    console.log('resultado de compra = ', message);
+    setBuys([]);
+    
   };
 
   return (
@@ -45,11 +78,11 @@ const AgregarProducto = () => {
         </Col>
         <Col>
           <label >Categoria</label>
-          <select onChange={(e)=>setCategoria(e.target.value)}>
+          <select onChange={(e) => setCategoria(e.target.value)}>
             <option value="">Seleccione una opción</option>
             <option value="dama">Dama</option>
             <option value="caballero">Caballero</option>
-            <option value="niños">Niño</option>
+            <option value="niño">Niño</option>
           </select>
         </Col>
         <Col>
@@ -59,32 +92,58 @@ const AgregarProducto = () => {
         </Col>
       </Row>
       <Spacer y={1} />
+      <Table
+        aria-label="Example table with static content"
+        css={{
+          height: "auto",
+          minWidth: "100%",
+        }}
+      >
+        <Table.Header>
+          <Table.Column>producto</Table.Column>
+          <Table.Column>Precio</Table.Column>
+        </Table.Header>
+        <Table.Body>
+          {
+            buys.map(b => (
+              <Table.Row key={`${b.id}`}>
+                <Table.Cell>{b.title}</Table.Cell>
+                <Table.Cell>{b.precio}</Table.Cell>
+              </Table.Row>
+            ))
+          }
+        </Table.Body>
+      </Table>
+      <Spacer y={1} />
       <Row justify='center' >
         <Button onPress={handleSubmit}>
           Agregar
         </Button>
+        <Button onPress={handleSubmitBuy}>
+          Comprar {buys.reduce((acumulator, current) => acumulator + Number.parseFloat(current.precio), 0 )}
+        </Button>
       </Row>
       <TitleWithLine title="Damas" />
       <Grid.Container gap={2} justify="center">
-        {allData.filter(d => d.categoria === 'dama').map(d => (
-          <Grid xs={12} sm={2} key={d.id}>
-            <CardImage id={d.id} title={d.nombre} src={d.file} />
+        {damas.map(d => (
+          <Grid xs={12} sm={2} key={`${d.id}`}>
+            <CardImage id={`${d.id}`} title={d.nombre} src={d.image} setBuys={setBuys} precio={d.precio} />
           </Grid>
         ))}
       </Grid.Container>
       <TitleWithLine title="Caballeros" gradient="45deg, $purple600 -20%, $pink600 100%" />
       <Grid.Container gap={2} justify="center">
-        {allData.filter(d => d.categoria === 'caballero').map(d => (
-          <Grid xs={12} sm={2} key={d.id}>
-            <CardImage id={d.id} title={d.nombre} src={d.file} />
+        {caballeros.map(d => (
+          <Grid xs={12} sm={2} key={`${d.id}`}>
+            <CardImage id={`${d.id}`} title={d.nombre} src={d.image} setBuys={setBuys} precio={d.precio} />
           </Grid>
         ))}
       </Grid.Container>
       <TitleWithLine title="niños" gradient="45deg, $yellow600 -20%, $red600 100%" />
       <Grid.Container gap={2} justify="center">
-        {allData.filter(d => d.categoria === 'niños').map(d => (
-          <Grid xs={12} sm={2} key={d.id}>
-            <CardImage id={d.id} title={d.nombre} src={d.file} />
+        {niños.map(d => (
+          <Grid xs={12} sm={2} key={`${d.id}`}>
+            <CardImage id={`${d.id}`} title={d.nombre} src={d.image} setBuys={setBuys} precio={d.precio} />
           </Grid>
         ))}
       </Grid.Container>
