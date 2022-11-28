@@ -1,6 +1,7 @@
 import { Button, Col, Container, Grid, Input, Row, Spacer, Table, Text } from '@nextui-org/react';
 import { useEffect, useState } from 'react'
 import { addProduct, allProductsForCategory } from '../../services/product';
+import { registerBuy } from '../../services/recibo';
 import CardImage from '../components/dataDisplay/Card';
 import TitleWithLine from '../components/dataDisplay/Text/TitleWithLine';
 
@@ -35,7 +36,6 @@ const AgregarProducto = () => {
   }
 
   const handleSubmit = async () => {
-    console.log('prueba')
     const message = await addProduct({ nombre, precio, categoria, image: 'nada' });
     console.log('Mensaje', message);
     loadProducts();
@@ -51,6 +51,13 @@ const AgregarProducto = () => {
     };
 
     reader.readAsDataURL(target.files[0]);
+  };
+
+  const handleSubmitBuy = async () => {
+    const message = await registerBuy({ total: buys.reduce((acumulator, current) => acumulator + Number.parseFloat(current.precio),0) });
+    console.log('resultado de compra = ', message);
+    setBuys([]);
+    
   };
 
   return (
@@ -111,6 +118,9 @@ const AgregarProducto = () => {
       <Row justify='center' >
         <Button onPress={handleSubmit}>
           Agregar
+        </Button>
+        <Button onPress={handleSubmitBuy}>
+          Comprar {buys.reduce((acumulator, current) => acumulator + Number.parseFloat(current.precio), 0 )}
         </Button>
       </Row>
       <TitleWithLine title="Damas" />
