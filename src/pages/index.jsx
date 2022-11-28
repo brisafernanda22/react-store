@@ -1,4 +1,4 @@
-import { Button, Col, Container, Grid, Input, Row, Spacer, Text } from '@nextui-org/react';
+import { Button, Col, Container, Grid, Input, Row, Spacer, Table, Text } from '@nextui-org/react';
 import { useEffect, useState } from 'react'
 import { addProduct, allProductsForCategory } from '../../services/product';
 import CardImage from '../components/dataDisplay/Card';
@@ -13,7 +13,7 @@ const AgregarProducto = () => {
   const [precio, setPrecio] = useState('');
   const [categoria, setCategoria] = useState('');
   const [file, setFile] = useState('Ningun archivo seleccionado');
-  const [allData, setAllData] = useState([]);
+  const [buys, setBuys] = useState([]);
 
   const [caballeros, setCaballeros] = useState([]);
   const [damas, setDamas] = useState([]);
@@ -34,9 +34,9 @@ const AgregarProducto = () => {
 
   }
 
-  const handleSubmit = async () =>{
+  const handleSubmit = async () => {
     console.log('prueba')
-    const message = await  addProduct({nombre,precio, categoria, image: 'nada'});
+    const message = await addProduct({ nombre, precio, categoria, image: 'nada' });
     console.log('Mensaje', message);
     loadProducts();
   };
@@ -85,6 +85,29 @@ const AgregarProducto = () => {
         </Col>
       </Row>
       <Spacer y={1} />
+      <Table
+        aria-label="Example table with static content"
+        css={{
+          height: "auto",
+          minWidth: "100%",
+        }}
+      >
+        <Table.Header>
+          <Table.Column>producto</Table.Column>
+          <Table.Column>Precio</Table.Column>
+        </Table.Header>
+        <Table.Body>
+          {
+            buys.map(b => (
+              <Table.Row key={`${b.id}`}>
+                <Table.Cell>{b.title}</Table.Cell>
+                <Table.Cell>{b.precio}</Table.Cell>
+              </Table.Row>
+            ))
+          }
+        </Table.Body>
+      </Table>
+      <Spacer y={1} />
       <Row justify='center' >
         <Button onPress={handleSubmit}>
           Agregar
@@ -94,7 +117,7 @@ const AgregarProducto = () => {
       <Grid.Container gap={2} justify="center">
         {damas.map(d => (
           <Grid xs={12} sm={2} key={`${d.id}`}>
-            <CardImage id={`${d.id}`} title={d.nombre} src={d.image} />
+            <CardImage id={`${d.id}`} title={d.nombre} src={d.image} setBuys={setBuys} precio={d.precio} />
           </Grid>
         ))}
       </Grid.Container>
@@ -102,7 +125,7 @@ const AgregarProducto = () => {
       <Grid.Container gap={2} justify="center">
         {caballeros.map(d => (
           <Grid xs={12} sm={2} key={`${d.id}`}>
-            <CardImage id={`${d.id}`} title={d.nombre} src={d.image} />
+            <CardImage id={`${d.id}`} title={d.nombre} src={d.image} setBuys={setBuys} precio={d.precio} />
           </Grid>
         ))}
       </Grid.Container>
@@ -110,7 +133,7 @@ const AgregarProducto = () => {
       <Grid.Container gap={2} justify="center">
         {niños.map(d => (
           <Grid xs={12} sm={2} key={`${d.id}`}>
-            <CardImage id={`${d.id}`} title={d.nombre} src={d.image} />
+            <CardImage id={`${d.id}`} title={d.nombre} src={d.image} setBuys={setBuys} precio={d.precio} />
           </Grid>
         ))}
       </Grid.Container>
